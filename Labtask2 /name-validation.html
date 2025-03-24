@@ -1,0 +1,67 @@
+<!-- name.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Name Validation</title>
+    <style>
+        .error { color: red; }
+        .success { color: green; }
+    </style>
+</head>
+<body>
+    <form onsubmit="return validateName()">
+        <label for="name">Name:</label>
+        <input type="text" id="name">
+        <button type="submit">Submit</button>
+        <div id="nameError"></div>
+    </form>
+    <script>
+        function validateName() {
+            const name = document.getElementById('name').value.trim();
+            const errorDiv = document.getElementById('nameError');
+            
+            
+            if (name === "") {
+                errorDiv.textContent = "Name cannot be empty";
+                errorDiv.className = "error";
+                return false;
+            }
+            
+          
+            const firstChar = name.charAt(0);
+            if (!(firstChar >= 'a' && firstChar <= 'z') && !(firstChar >= 'A' && firstChar <= 'Z')) {
+                errorDiv.textContent = "Name must start with a letter";
+                errorDiv.className = "error";
+                return false;
+            }
+            
+          
+            const words = name.split(' ').filter(word => word.length > 0);
+            if (words.length < 2) {
+                errorDiv.textContent = "Name must have at least two words";
+                errorDiv.className = "error";
+                return false;
+            }
+            
+           
+            for (let i = 0; i < name.length; i++) {
+                const char = name.charAt(i);
+                if (!(char >= 'a' && char <= 'z') && 
+                    !(char >= 'A' && char <= 'Z') && 
+                    char !== '.' && 
+                    char !== '-' && 
+                    char !== ' ') {
+                    errorDiv.textContent = "Name can only contain a-z, A-Z, dot(.) or dash(-)";
+                    errorDiv.className = "error";
+                    return false;
+                }
+            }
+            
+            errorDiv.textContent = "Valid Name!";
+            errorDiv.className = "success";
+            return true;
+        }
+    </script>
+</body>
+</html>
